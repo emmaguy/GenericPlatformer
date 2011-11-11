@@ -1,11 +1,13 @@
 function Main() {
 	var self = this;
 	var canvas;
+	var blockSize = 32;
 	var width;
 	var height;
 	var backgroundColour = "#fff";
 	var player;
 	var keys = {};
+	var terrain = new Array();
 	
 	self.clear = function() {
 		canvas.fillStyle = backgroundColour;
@@ -14,6 +16,12 @@ function Main() {
 	
 	self.draw = function() {
 		self.clear();
+		
+		var x = 0;
+		for(var i = 0; i < terrain.length; i++) {
+			canvas.fillStyle = "#308014";
+			canvas.fillRect(x++ * blockSize, height - terrain[i], blockSize, terrain[i]);
+		}
 
 		for (var i in keys) {
 			// deal with any keys being pressed right now
@@ -30,7 +38,7 @@ function Main() {
 				break;
 			}
 		}
-		player.move(height);
+		player.move(terrain);
 		player.draw(canvas);
 	}
 	
@@ -47,8 +55,11 @@ function Main() {
 			canvas = cvs.getContext("2d");
 			width = cvs.width;
 			height = cvs.height;
-				
+			
 			player = new Player(width, height);
+			for(var i = 0; i < width / blockSize; i++) {
+				terrain[i] = Math.ceil(Math.random() * 4) * blockSize;
+			}
 				
 			setInterval(self.draw, 10);
 		}
