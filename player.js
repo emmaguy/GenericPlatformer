@@ -2,7 +2,7 @@ function Player(canvasWidth, canvasHeight) {
 	var self = this;
 	var height = 32;
 	var width = 32;
-	var x = 0;
+	var x = width;
 	var y = 0;
 	
 	var falling = true;
@@ -45,10 +45,20 @@ function Player(canvasWidth, canvasHeight) {
 		else {
 			falling = false;
 		}
+		
+		// check we're not being pushed in to a wall
+		var diff = self.getDiffYLocNextTerrainBlockHeight(terrain);
+		if(diff > 0){
+			x--;
+		}
 	}
 	
-	self.isDead = function() {
+	self.isDead = function(terrain) {
 		return (self.getPlayerYLoc() <= 0);
+	}
+	
+	self.isKilledByLHSOfScreen = function(terrain) {
+		return (x <= (-width/4));
 	}
 	
 	self.isAboveGround = function(terrain) {

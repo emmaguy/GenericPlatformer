@@ -40,31 +40,27 @@ function Main() {
 		}
 		
 		player.move(terrain);
-		
-		var diff = player.getDiffYLocNextTerrainBlockHeight(terrain);
 
-		// 10 gives a bit of contingency - i.e. player can land
-		// just on the corner and get away with it
-		if(player.isDead() || diff > 10){
-			self.gameOver();
+		if(player.isDead() || player.isKilledByLHSOfScreen()){
+			self.endGame("Game Over!", "red");
 		}
 		
 		if(player.isAtEnd(terrain)){
-			self.gameOver();
+			self.endGame("Congratulations!", "gold");
 		}
 		
 		terrain.draw(canvas);
 		player.draw(canvas);
 	}
 	
-	self.gameOver = function() {
+	self.endGame = function(msg, colour) {
 		terrain.stopMoving();
 		
 		// notify the user and reset
 		canvas.font = "30pt Calibri";
 		canvas.textAlign = "center";
-		canvas.fillStyle = "red";
-		canvas.fillText("Game Over!", width / 2, height / 3);
+		canvas.fillStyle = colour;
+		canvas.fillText(msg, width / 2, height / 3);
 	}
 	
 	self.onKeyDown = function(keyspressed) {

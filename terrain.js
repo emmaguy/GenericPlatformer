@@ -66,7 +66,8 @@ function Terrain(width, height) {
 		terrain[i] = Math.floor(Math.random() * maxHeight) * blockSize;
 		if(i <= 3 || i > terrainLength - 3) {
 			// don't want 0 blocks on any of the first few/end blocks
-			terrain[i] += blockSize;
+			// make it a consistent height
+			terrain[i] = blockSize * 2;
 		}
 	}
 }
