@@ -27,7 +27,7 @@ function Player(canvasWidth, canvasHeight) {
 
 	self.move = function(terrain) {
 		
-		var isAbove = self.isPlayerAboveGround(terrain);
+		var isAbove = self.isAboveGround(terrain);
 		if(heightToJumpTo > 0) {
 			if(heightToJumpTo > self.getPlayerYLoc()) {
 				y -= jumpVel;
@@ -45,14 +45,13 @@ function Player(canvasWidth, canvasHeight) {
 		else {
 			falling = false;
 		}
-		
-		// if we've hit canvasHeight, we're dead :(
-		if(self.getPlayerYLoc() <= 0) {
-			// TODO: dead logic
-		}
 	}
 	
-	self.isPlayerAboveGround = function(terrain) {
+	self.isDead = function() {
+		return (self.getPlayerYLoc() <= 0);
+	}
+	
+	self.isAboveGround = function(terrain) {
 		
 		// get left corner and right corner
 		var leftCorner = terrain.heightAt(x);
@@ -93,6 +92,10 @@ function Player(canvasWidth, canvasHeight) {
 			return true;
 
 		return false;
+	}
+	
+	self.isAtEnd = function(terrain) {
+		return terrain.isAtEndOfTerrain(x);
 	}
 	
 	self.getPlayerYLoc = function() {

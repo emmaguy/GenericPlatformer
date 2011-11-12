@@ -41,6 +41,10 @@ function Main() {
 		
 		player.move(terrain);
 		
+		if(player.isDead() || player.isAtEnd(terrain)){
+			terrain.stopMoving();
+		}
+		
 		terrain.draw(canvas);
 		player.draw(canvas);
 	}

@@ -1,11 +1,12 @@
 function Terrain(width, height) {
 
 	var self = this;
-	var terrainLength = 50;
-	var blockSize = 32;
+	
 	var maxHeight = 4;
-	var terrain = new Array();
+	var blockSize = 32;
 	var scrollDist = 0;
+	var terrainLength = 50;
+	var terrain = new Array();
 	var moving = false;
 		
 	self.draw = function(canvas) {
@@ -23,8 +24,17 @@ function Terrain(width, height) {
 		moving = true;
 	}
 	
+	self.stopMoving = function() {
+		moving = false;
+	}
+	
+	self.isAtEndOfTerrain = function(playerXLoc) {
+		var ind = self.getIndexOfCurrentTerrainBlock(playerXLoc);
+		return ind >= terrain.length;
+	}
+	
 	self.getIndexOfCurrentTerrainBlock = function(playerXLoc) {
-		return Math.floor(playerXLoc / blockSize);	
+		return Math.floor((playerXLoc + scrollDist) / blockSize);	
 	}
 	
 	self.heightAt = function(playerXLoc) {
