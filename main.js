@@ -7,6 +7,7 @@ function Main() {
 	var player;
 	var keys = {};
 	var terrain;
+	var terrainMoving = true;
 	
 	self.clear = function() {
 		canvas.fillStyle = backgroundColour;
@@ -18,6 +19,7 @@ function Main() {
 	
 		for (var i in keys) {
 			// deal with any keys being pressed right now
+			terrainMoving = false;
 			switch(i)
 			{
 			case "37": // left key
@@ -30,6 +32,11 @@ function Main() {
 				player.moveRight(terrain);
 				break;
 			}
+		}
+		
+		if(!terrainMoving) {
+			terrain.startMoving();
+			terrainMoving = true;
 		}
 		
 		player.move(terrain);

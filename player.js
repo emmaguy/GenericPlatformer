@@ -7,10 +7,10 @@ function Player(canvasWidth, canvasHeight) {
 	
 	var falling = true;
 	
+	var fallVel = 2;
 	var jumpVel = 10;
 	var heightToJumpTo = 0;
 	var jumpMultiplier = 3;
-	var fallVel = 2;
 	
 	var imgPlayer = new Image();
 	imgPlayer.src = 'player.png';

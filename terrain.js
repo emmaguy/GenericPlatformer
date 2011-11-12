@@ -1,18 +1,26 @@
 function Terrain(width, height) {
 
 	var self = this;
-	var terrainLength = 20;
+	var terrainLength = 50;
 	var blockSize = 32;
 	var maxHeight = 4;
 	var terrain = new Array();
+	var scrollDist = 0;
+	var moving = false;
 		
 	self.draw = function(canvas) {
 		
-		var x = 0;
 		for(var i = 0; i < terrain.length; i++) {
 			canvas.fillStyle = "#308014";
-			canvas.fillRect(x++ * blockSize, height - terrain[i], blockSize, terrain[i]);
+			canvas.fillRect(i * blockSize - scrollDist, height - terrain[i], blockSize, terrain[i]);
 		}
+		if(moving) {
+			scrollDist++;
+		}
+	}
+	
+	self.startMoving = function() {
+		moving = true;
 	}
 	
 	self.getIndexOfCurrentTerrainBlock = function(playerXLoc) {
