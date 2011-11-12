@@ -56,8 +56,20 @@ function Terrain(width, height) {
 		var ind = self.getIndexOfCurrentTerrainBlock(playerXLoc);
 		var leftCorner = terrain[ind];
 		var rightCorner = terrain[ind + 1];
+		
+		// if we're exactly on a block just consider
+		// that block beneath us (or either side if very close to edge)
+		var blockBeneath = playerYLoc > leftCorner;
+		
+		var size = (playerXLoc / blockSize);
+		var remainder = size - Math.floor(size);
+		if(playerXLoc % blockSize == 0 || remainder < 0.05)
+		{
+			return blockBeneath;
+		}
 			
-		return playerYLoc > leftCorner && playerYLoc > rightCorner;
+		// otherwise consider height of blocks to left and to right
+		return blockBeneath && playerYLoc > rightCorner;
 	}
 	
 	for(var i = 0; i < width / blockSize; i++) {
