@@ -8,7 +8,7 @@ function Player(canvasWidth, canvasHeight) {
 	var falling = true;
 	
 	var jumpVel = 10;
-	var jumpHeight = 0;
+	var heighToJumpTo = 0;
 	var jumpMultiplier = 3;
 	var fallVel = 2;
 	
@@ -18,18 +18,23 @@ function Player(canvasWidth, canvasHeight) {
 	self.draw = function(canvas) {
 		canvas.drawImage(imgPlayer, x, y);
 	}
+	
+	self.jump = function(terrain) {
+		if(!falling) {
+			heighToJumpTo = height * jumpMultiplier + terrain.heightAt(x);
+		}
+	}
 
 	self.move = function(terrain) {
 		
 		var isAbove = self.isPlayerAboveGround(terrain);
-		
-		if(jumpHeight > 0) {
-			if(jumpHeight > self.getPlayerYLoc()) {
+		if(heighToJumpTo > 0) {
+			if(heighToJumpTo > self.getPlayerYLoc()) {
 				y -= jumpVel;
 				falling = false;
 			}
 			else {
-				jumpHeight = 0;
+				heighToJumpTo = 0;
 				falling = true;
 			}
 		}
@@ -87,12 +92,6 @@ function Player(canvasWidth, canvasHeight) {
 	
 	self.getPlayerYLoc = function() {
 		return canvasHeight - y - height;
-	}
-	
-	self.jump = function(terrain) {
-		if(!falling) {
-			jumpHeight = height * jumpMultiplier + terrain.heightAt(x);
-		}
 	}
 	
 	self.moveLeft = function(terrain) {	
