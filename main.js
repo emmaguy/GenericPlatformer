@@ -4,7 +4,7 @@ function Main() {
 	var blockSize = 32;
 	var width;
 	var height;
-	var backgroundColour = "#fff";
+	var backgroundColour = "#aaf";
 	var player;
 	var keys = {};
 	var terrain;

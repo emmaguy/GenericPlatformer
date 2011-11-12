@@ -2,7 +2,7 @@ function Terrain(width, height) {
 
 	var self = this;
 	var blockSize = 32;
-	var maxHeight = 3;
+	var maxHeight = 4;
 	var terrain = new Array();
 		
 	self.draw = function(canvas) {
@@ -38,7 +38,7 @@ function Terrain(width, height) {
 		
 		var ind = self.getIndexOfCurrentTerrainBlock(playerXLoc);
 		var nextBlockHeight = terrain[ind + 1];
-				
+		
 		// the player's y location is bigger than the next block's height
 		if(playerYLoc >= nextBlockHeight)
 			return true;
@@ -48,6 +48,11 @@ function Terrain(width, height) {
 	
 	self.getIndexOfCurrentTerrainBlock = function(playerXLoc) {
 		return Math.floor(playerXLoc / blockSize);	
+	}
+	
+	self.heightAt = function(playerXLoc) {
+		var ind = self.getIndexOfCurrentTerrainBlock(playerXLoc);
+		return terrain[ind];
 	}
 	
 	self.isPlayerAboveGround = function(playerXLoc, playerYLoc, playerWidth) {
