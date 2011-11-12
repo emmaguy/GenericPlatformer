@@ -43,13 +43,13 @@ function Terrain(width, height) {
 	}
 	
 	self.isMidBlock = function(playerXLoc) {
-		return (playerXLoc % blockSize != 0)
+		return (playerXLoc % blockSize !== 0)
 	}
 	
 	self.isExactlyOnBlockOrEdge = function(playerXLoc) {
 		var size = (playerXLoc / blockSize);
 		var remainder = size - Math.floor(size);
-		return (playerXLoc % blockSize == 0 || remainder < 0.05);
+		return (playerXLoc % blockSize === 0 || remainder < 0.05);
 	}
 	
 	for(var i = 0; i < terrainLength; i++) {
