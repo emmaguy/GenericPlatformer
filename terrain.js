@@ -1,6 +1,7 @@
 function Terrain(width, height) {
 
 	var self = this;
+	var terrainLength = 20;
 	var blockSize = 32;
 	var maxHeight = 4;
 	var terrain = new Array();
@@ -43,7 +44,11 @@ function Terrain(width, height) {
 		return (playerXLoc % blockSize == 0 || remainder < 0.05);
 	}
 	
-	for(var i = 0; i < width / blockSize; i++) {
-		terrain[i] = Math.ceil(Math.random() * maxHeight) * blockSize;
+	for(var i = 0; i < terrainLength; i++) {
+		terrain[i] = Math.floor(Math.random() * maxHeight) * blockSize;
+		if(i <= 3) {
+			// don't want 0 blocks on any of the first few blocks
+			terrain[i] += blockSize;
+		}
 	}
 }

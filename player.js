@@ -8,7 +8,7 @@ function Player(canvasWidth, canvasHeight) {
 	var falling = true;
 	
 	var jumpVel = 10;
-	var heighToJumpTo = 0;
+	var heightToJumpTo = 0;
 	var jumpMultiplier = 3;
 	var fallVel = 2;
 	
@@ -21,20 +21,20 @@ function Player(canvasWidth, canvasHeight) {
 	
 	self.jump = function(terrain) {
 		if(!falling) {
-			heighToJumpTo = height * jumpMultiplier + terrain.heightAt(x);
+			heightToJumpTo = height * jumpMultiplier + terrain.heightAt(x);
 		}
 	}
 
 	self.move = function(terrain) {
 		
 		var isAbove = self.isPlayerAboveGround(terrain);
-		if(heighToJumpTo > 0) {
-			if(heighToJumpTo > self.getPlayerYLoc()) {
+		if(heightToJumpTo > 0) {
+			if(heightToJumpTo > self.getPlayerYLoc()) {
 				y -= jumpVel;
 				falling = false;
 			}
 			else {
-				heighToJumpTo = 0;
+				heightToJumpTo = 0;
 				falling = true;
 			}
 		}
@@ -44,6 +44,11 @@ function Player(canvasWidth, canvasHeight) {
 		}
 		else {
 			falling = false;
+		}
+		
+		// if we've hit canvasHeight, we're dead :(
+		if(self.getPlayerYLoc() <= 0) {
+			// TODO: dead logic
 		}
 	}
 	

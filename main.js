@@ -1,7 +1,6 @@
 function Main() {
 	var self = this;
 	var canvas;
-	var blockSize = 32;
 	var width;
 	var height;
 	var backgroundColour = "#aaf";
