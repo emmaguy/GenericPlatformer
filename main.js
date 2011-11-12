@@ -41,12 +41,30 @@ function Main() {
 		
 		player.move(terrain);
 		
-		if(player.isDead() || player.isAtEnd(terrain)){
-			terrain.stopMoving();
+		var diff = player.getDiffYLocNextTerrainBlockHeight(terrain);
+
+		// 10 gives a bit of contingency - i.e. player can land
+		// just on the corner and get away with it
+		if(player.isDead() || diff > 10){
+			self.gameOver();
+		}
+		
+		if(player.isAtEnd(terrain)){
+			self.gameOver();
 		}
 		
 		terrain.draw(canvas);
 		player.draw(canvas);
+	}
+	
+	self.gameOver = function() {
+		terrain.stopMoving();
+		
+		// notify the user and reset
+		canvas.font = "30pt Calibri";
+		canvas.textAlign = "center";
+		canvas.fillStyle = "red";
+		canvas.fillText("Game Over!", width / 2, height / 3);
 	}
 	
 	self.onKeyDown = function(keyspressed) {

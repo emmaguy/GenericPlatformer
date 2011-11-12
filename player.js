@@ -81,6 +81,10 @@ function Player(canvasWidth, canvasHeight) {
 		return false;
 	}
 	
+	self.getDiffYLocNextTerrainBlockHeight = function(terrain) {
+		return terrain.heightAtNextBlock(x) - self.getPlayerYLoc();
+	}
+	
 	self.canMoveRight = function(terrain) {
 		
 		// we're mid block so go to the edge
@@ -88,7 +92,7 @@ function Player(canvasWidth, canvasHeight) {
 			return true;
 		
 		// the player's y location is bigger than the next block's height
-		if(self.getPlayerYLoc() >= terrain.heightAtNextBlock(x))
+		if(self.getDiffYLocNextTerrainBlockHeight(terrain) < 0)
 			return true;
 
 		return false;

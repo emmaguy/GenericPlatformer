@@ -30,7 +30,7 @@ function Terrain(width, height) {
 	
 	self.isAtEndOfTerrain = function(playerXLoc) {
 		var ind = self.getIndexOfCurrentTerrainBlock(playerXLoc);
-		return ind >= terrain.length;
+		return ind + 1 >= terrain.length;
 	}
 	
 	self.getIndexOfCurrentTerrainBlock = function(playerXLoc) {
@@ -64,8 +64,8 @@ function Terrain(width, height) {
 	
 	for(var i = 0; i < terrainLength; i++) {
 		terrain[i] = Math.floor(Math.random() * maxHeight) * blockSize;
-		if(i <= 3) {
-			// don't want 0 blocks on any of the first few blocks
+		if(i <= 3 || i > terrainLength - 3) {
+			// don't want 0 blocks on any of the first few/end blocks
 			terrain[i] += blockSize;
 		}
 	}
