@@ -14,38 +14,6 @@ function Terrain(width, height) {
 		}
 	}
 	
-	self.canMoveLeft = function(playerXLoc, playerYLoc) {
-
-		// we're mid block so go to the edge
-		if(playerXLoc % blockSize != 0)
-			return true;
-		
-		var ind = self.getIndexOfCurrentTerrainBlock(playerXLoc);
-		var previousBlockHeight = terrain[ind - 1];
-				
-		// the player's y location is bigger than the previous block's height
-		if(playerYLoc >= previousBlockHeight)
-			return true;
-
-		return false;
-	}
-	
-	self.canMoveRight = function(playerXLoc, playerYLoc) {
-		
-		// we're mid block so go to the edge
-		if(playerXLoc % blockSize != 0)
-			return true;
-		
-		var ind = self.getIndexOfCurrentTerrainBlock(playerXLoc);
-		var nextBlockHeight = terrain[ind + 1];
-		
-		// the player's y location is bigger than the next block's height
-		if(playerYLoc >= nextBlockHeight)
-			return true;
-
-		return false;
-	}
-	
 	self.getIndexOfCurrentTerrainBlock = function(playerXLoc) {
 		return Math.floor(playerXLoc / blockSize);	
 	}
@@ -55,26 +23,24 @@ function Terrain(width, height) {
 		return terrain[ind];
 	}
 	
-	self.isPlayerAboveGround = function(playerXLoc, playerYLoc, playerWidth) {
-		
-		// get left corner and right corner
+	self.heightAtPreviousBlock = function(playerXLoc) {
 		var ind = self.getIndexOfCurrentTerrainBlock(playerXLoc);
-		var leftCorner = terrain[ind];
-		var rightCorner = terrain[ind + 1];
-		
-		// if we're exactly on a block just consider
-		// that block beneath us (or either side if very close to edge)
-		var blockBeneath = playerYLoc > leftCorner;
-		
+		return terrain[ind - 1];
+	}
+	
+	self.heightAtNextBlock = function(playerXLoc) {
+		var ind = self.getIndexOfCurrentTerrainBlock(playerXLoc);
+		return terrain[ind + 1];
+	}
+	
+	self.isMidBlock = function(playerXLoc) {
+		return (playerXLoc % blockSize != 0)
+	}
+	
+	self.isExactlyOnBlockOrEdge = function(playerXLoc) {
 		var size = (playerXLoc / blockSize);
 		var remainder = size - Math.floor(size);
-		if(playerXLoc % blockSize == 0 || remainder < 0.05)
-		{
-			return blockBeneath;
-		}
-			
-		// otherwise consider height of blocks to left and to right
-		return blockBeneath && playerYLoc > rightCorner;
+		return (playerXLoc % blockSize == 0 || remainder < 0.05);
 	}
 	
 	for(var i = 0; i < width / blockSize; i++) {
