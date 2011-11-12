@@ -10,6 +10,7 @@ function Main() {
 	var terrainMoving = true;
 	
 	self.clear = function() {
+		canvas.clearRect(0, 0, width, height);
 		canvas.fillStyle = backgroundColour;
 		canvas.fillRect(0, 0, width, height);
 	}
@@ -42,25 +43,61 @@ function Main() {
 		player.move(terrain);
 
 		if(player.isDead() || player.isKilledByLHSOfScreen()){
-			self.endGame("Game Over!", "red");
+			self.endGameFail();
 		}
 		
 		if(player.isAtEnd(terrain)){
-			self.endGame("Congratulations!", "gold");
+			self.endGameSuccess();
 		}
 		
 		terrain.draw(canvas);
 		player.draw(canvas);
 	}
 	
-	self.endGame = function(msg, colour) {
+	self.endGameFail = function() {
 		terrain.stopMoving();
-		
-		// notify the user and reset
 		canvas.font = "30pt Calibri";
 		canvas.textAlign = "center";
-		canvas.fillStyle = colour;
-		canvas.fillText(msg, width / 2, height / 3);
+		canvas.fillStyle = "red";
+		canvas.fillText("Game Over!", width / 2, height / 3);
+		
+		// pause for a few seconds
+		setTimeout(self.resetFail, 3000);
+	}
+	
+	self.endGameSuccess = function() {
+		
+		terrain.stopMoving();
+		canvas.font = "30pt Calibri";
+		canvas.textAlign = "center";
+		canvas.fillStyle = "gold";
+		canvas.fillText("Congratulations!", width / 2, height / 3);
+		
+		// pause for a few seconds
+		setTimeout(self.resetSuccess, 3000);
+	}
+	
+	self.resetFail = function() {
+		
+		self.reset();
+		
+		// do the level again
+		terrain.reset();
+	}
+	
+	self.resetSuccess = function() {
+		
+		self.reset();
+		
+		// new terrain plz
+		terrain.generateNew();
+	}
+	
+	self.reset = function() {
+		
+		// clear canvas
+		self.clear();
+		player.reset();
 	}
 	
 	self.onKeyDown = function(keyspressed) {

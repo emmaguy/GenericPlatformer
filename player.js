@@ -6,14 +6,21 @@ function Player(canvasWidth, canvasHeight) {
 	var y = 0;
 	
 	var falling = true;
+	var heightToJumpTo = 0;
 	
+	// constants
 	var fallVel = 2;
 	var jumpVel = 10;
-	var heightToJumpTo = 0;
 	var jumpMultiplier = 3;
 	
 	var imgPlayer = new Image();
 	imgPlayer.src = 'player.png';
+	
+	self.reset = function() {
+		x = width;
+		y = 0;
+		faling = true;
+	}
 	
 	self.draw = function(canvas) {
 		canvas.drawImage(imgPlayer, x, y);
