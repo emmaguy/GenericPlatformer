@@ -5,7 +5,8 @@ function Player(canvasWidth, canvasHeight) {
 	var x = 0;
 	var y = 0;
 	
-	var jumping = false;
+	var falling = true;
+	
 	var jumpVel = 2;
 	var jumpHeight = 0;
 	var jumpMultiplier = 3;
@@ -18,35 +19,36 @@ function Player(canvasWidth, canvasHeight) {
 		canvas.drawImage(imgPlayer, x, y);
 	}
 
-	// gravity
 	self.move = function(terrain) {
 		
-		if(!jumping) {
-			var isAbove = terrain.isPlayerAboveGround(x, self.getPlayerYLoc(), width);
-			if(isAbove) {
-				y += fallVel;
-				return;
+		var isAbove = terrain.isPlayerAboveGround(x, self.getPlayerYLoc(), width);
+		
+		if(jumpHeight > 0) {
+			if(jumpHeight > self.getPlayerYLoc()) {
+				y -= jumpVel;
+			}
+			else {
+				jumpHeight = 0;
+				falling = true;
 			}
 		}
-		if(jumpHeight > self.getPlayerYLoc()) {
-			y -= jumpVel;
-		}
-		else {
-			jumpHeight = 0;
-			jumping = false;
+		else { 
+			if(isAbove) {
+				y += fallVel;
+			}
+			else {
+				falling = false;
+			}
 		}
 	}
 	
-	self.getPlayerYLoc = function(){
+	self.getPlayerYLoc = function() {
 		return canvasHeight - y - height;
 	}
 	
 	self.jump = function(terrain) {
-		// only one jump at a time
-		if(!jumping)
-		{
-			jumping = true;
-			jumpHeight = height * jumpMultiplier  + terrain.heightAt(x);
+		if(!falling) {
+			jumpHeight = height * jumpMultiplier + terrain.heightAt(x);
 		}
 	}
 	
