@@ -7,6 +7,7 @@ function Player(canvasWidth, canvasHeight) {
 	
 	var falling = true;
 	var heightToJumpTo = 0;
+	var enabled = true;
 	
 	// constants
 	var fallVel = 2;
@@ -19,7 +20,8 @@ function Player(canvasWidth, canvasHeight) {
 	self.reset = function() {
 		x = width;
 		y = 0;
-		faling = true;
+		falling = true;
+		enabled = true;
 	}
 	
 	self.draw = function(canvas) {
@@ -27,6 +29,10 @@ function Player(canvasWidth, canvasHeight) {
 	}
 	
 	self.jump = function(terrain) {
+	
+		if(!enabled)
+			return;
+		
 		if(!falling) {
 			heightToJumpTo = height * jumpMultiplier + terrain.heightAt(x);
 		}
@@ -85,6 +91,14 @@ function Player(canvasWidth, canvasHeight) {
 		return blockBeneath && self.getPlayerYLoc() > rightCorner;
 	}
 	
+	self.enable = function() {
+		enabled = true;
+	}
+	
+	self.disable = function() {
+		enabled = false;
+	}
+	
 	self.canMoveLeft = function(terrain) {
 
 		// we're mid block so go to the edge
@@ -124,6 +138,10 @@ function Player(canvasWidth, canvasHeight) {
 	}
 	
 	self.moveLeft = function(terrain) {	
+	
+		if(!enabled)
+			return;
+			
 		// if the block to the left is too high we can't move		
 		var canMoveLeft = self.canMoveLeft(terrain);
 		if(canMoveLeft) {
@@ -132,6 +150,10 @@ function Player(canvasWidth, canvasHeight) {
 	}
 	
 	self.moveRight = function(terrain) {	
+		
+		if(!enabled)
+			return;
+			
 		// if the block to the left is too high we can't move		
 		var canMoveRight = self.canMoveRight(terrain);
 		if(canMoveRight) {

@@ -56,6 +56,7 @@ function Main() {
 	
 	self.endGameFail = function() {
 		terrain.stopMoving();
+		player.disable();
 		canvas.font = "30pt Calibri";
 		canvas.textAlign = "center";
 		canvas.fillStyle = "red";
@@ -68,6 +69,7 @@ function Main() {
 	self.endGameSuccess = function() {
 		
 		terrain.stopMoving();
+		player.disable();
 		canvas.font = "30pt Calibri";
 		canvas.textAlign = "center";
 		canvas.fillStyle = "gold";
