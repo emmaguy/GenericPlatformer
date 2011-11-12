@@ -7,7 +7,7 @@ function Main() {
 	var backgroundColour = "#fff";
 	var player;
 	var keys = {};
-	var terrain = new Array();
+	var terrain;
 	
 	self.clear = function() {
 		canvas.fillStyle = backgroundColour;
@@ -16,29 +16,26 @@ function Main() {
 	
 	self.draw = function() {
 		self.clear();
-		
-		var x = 0;
-		for(var i = 0; i < terrain.length; i++) {
-			canvas.fillStyle = "#308014";
-			canvas.fillRect(x++ * blockSize, height - terrain[i], blockSize, terrain[i]);
-		}
-
+	
 		for (var i in keys) {
 			// deal with any keys being pressed right now
 			switch(i)
 			{
 			case "37": // left key
-				player.moveLeft();
+				player.moveLeft(terrain);
 				break;
 			case "38": // up key
-				player.jump();
+				player.jump(terrain);
 				break;
 			case "39": // right key
-				player.moveRight();
+				player.moveRight(terrain);
 				break;
 			}
 		}
+		
 		player.move(terrain);
+		
+		terrain.draw(canvas);
 		player.draw(canvas);
 	}
 	
@@ -57,9 +54,7 @@ function Main() {
 			height = cvs.height;
 			
 			player = new Player(width, height);
-			for(var i = 0; i < width / blockSize; i++) {
-				terrain[i] = Math.ceil(Math.random() * 4) * blockSize;
-			}
+			terrain = new Terrain(width, height);
 				
 			setInterval(self.draw, 10);
 		}

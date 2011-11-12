@@ -16,12 +16,18 @@ function Player(canvasWidth, canvasHeight) {
 
 	// gravity
 	self.move = function(terrain) {
-		if(y + height < canvasHeight - terrain[Math.floor(x / width)]) {
+		
+		var isAbove = terrain.isPlayerAboveGround(x, self.getPlayerYLoc(), width);
+		if(isAbove) {
 			y += fallSpeed;
 		}
 		else {
 			jumping = false;
 		}
+	}
+	
+	self.getPlayerYLoc = function(){
+		return canvasHeight - y - height;
 	}
 	
 	self.jump = function() {
@@ -33,12 +39,18 @@ function Player(canvasWidth, canvasHeight) {
 	}
 	
 	self.moveLeft = function(terrain) {	
-		// if the block to the left is too high we can't move
-		
-		x--;
+		// if the block to the left is too high we can't move		
+		var canMoveLeft = terrain.canMoveLeft(x, self.getPlayerYLoc());
+		if(canMoveLeft) {
+			x--;
+		}
 	}
 	
 	self.moveRight = function(terrain) {	
-		x++;
+		// if the block to the left is too high we can't move		
+		var canMoveRight = terrain.canMoveRight(x, self.getPlayerYLoc());
+		if(canMoveRight) {
+			x++;
+		}
 	}
 }
